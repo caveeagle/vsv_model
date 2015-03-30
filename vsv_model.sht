@@ -1,0 +1,106 @@
+
+<!--#config errmsg="" -->
+
+ <style type="text/css">
+.tab_vsv_model_icon {
+	background-image: url('/geosmis_projects/volcanoes/tabs/vsv_model/icon_vsv_model.gif'); 
+	width: 23px;
+	height: 23px;
+	margin-left: 3px;
+} 
+</style>
+
+<script type="text/javascript" src="/geosmis_projects/volcanoes/tabs/vsv_model/vsv_model.js"></script>
+
+<script type="text/javascript">
+
+    dojo.addOnLoad(INIT_VSV_MODEL_TAB); 
+ 
+</script>
+
+
+<div id="tab_vsv_model" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='
+			iconClass:"tab_vsv_model_icon",
+			onShow: function(){}'>
+    
+<div class="reducer">
+	<div style="padding:5px;">
+
+	<div align=left><input type="checkbox" title="Скрыть/показать данные" 
+	    id="vsv_model_visible_control" onclick="" 
+	    value="" checked/>&nbsp;<b>
+	        <span id='tab_vsv_model_tabname'>Моделирование пепловых шлейфов</span></b>
+	</div>
+	<hr>
+<!--  #####################################################################  -->
+
+<br>
+
+<fieldset>
+<legend>
+     &nbsp;
+     <span id="tab_objects_list_label"><big>Список моделирований</big></span>
+     &nbsp;
+</legend>
+    
+	<div>
+
+		<div class="list_info" id=_metadata_eruptions_info>Моделирований: XXX</div>
+		
+		<div id=_metadata_vsv_model style="height:240px; overflow:auto;" >&nbsp</div>
+
+
+		<table border="0" cellspacing=0 cellpadding=0 width="100%">
+		  <tr>
+		    <td>
+		    </td>
+		    <td>
+				<input type=button value="Снять выделение" style="width: 90px; font-size:10px;background: #D4D0C8;" onclick="clearVSVModelSelection();">
+		    </td>
+
+		    
+		  </tr>
+		</table>
+
+  	</div>
+</fieldset>
+    
+<br>
+<fieldset>
+<legend>
+     &nbsp;
+     <span id="tab_surveys_list_label"><big>Список наблюдений</big></span>
+     &nbsp;
+</legend>
+
+	<div>
+
+		<div class="list_info" id=_metadata_eruptions_states_info>&nbsp</div>
+		
+		<div id=_metadata_vsv_model_states style="height:240px; overflow:auto;" >&nbsp</div>
+
+
+		<table border="0" cellspacing=0 cellpadding=0 width="100%">
+		  <tr>
+		    <td>
+		    </td>
+		    <td>
+				<input type=button value="Снять выделение" style="width: 90px; font-size:10px;background: #D4D0C8;" onclick="clearVSVModelSurveysSelection();">
+		    </td>
+
+		    
+		  </tr>
+		</table>
+
+  	</div>
+</fieldset>
+    
+    
+<!--  #####################################################################  -->
+    </div>
+</div>
+
+</div>
+
+<!--#include virtual="vsv_model_lang.sht" -->
+

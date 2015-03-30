@@ -1,0 +1,17 @@
+<script	type="text/javascript">
+
+if(	typeof( LANGUAGE_OBJ_HTML ) ==	"undefined") { LANGUAGE_OBJ_HTML={}; }
+
+//!!! CHANGE _tab_id TO PROPER
+var _tab_id = 'tab_vsv_model';
+
+if(	typeof( LANGUAGE_CSS_TABS_HINT ) ==	"undefined") { LANGUAGE_CSS_TABS_HINT={}; }
+// Hash ID - CSS class name for tab icon without 'dot'
+LANGUAGE_CSS_TABS_HINT[_tab_id] = 
+{
+	rus:{ tab_vsv_model_icon: 'Моделирование пепловых шлейфов' },
+	eng:{ tab_vsv_model_icon: 'Ashes modeling' }
+}
+
+
+</script>
