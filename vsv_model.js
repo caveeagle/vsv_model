@@ -1,10 +1,14 @@
  
 function INIT_VSV_MODEL_TAB()
 {
-
     metaobj_vsv_model = new smisMeta({  "NoFlash":1, "debug": 1, "debug_func" : function(msg){	tlog(msg); }, conf: MetaDATA_conf.vsv_models, loadingHTML: "&nbsp;&nbsp;&nbsp;Обновление ...<br><br>",nodataHTML: "&nbsp;&nbsp;&nbsp;Нет данных<br><br>" });
     metaobj_vsv_model.OnMetaUpdate = vsv_model_OnMetaUpdate;
     metaobj_vsv_model.renderMakeParams = vsv_model_makeMetaParams;
+
+    metaobj_vsv_model_states = new smisMeta({  "NoFlash":1, "debug": 1, "debug_func" : function(msg){	tlog(msg); }, conf: MetaDATA_conf.vsv_model_states, loadingHTML: "&nbsp;&nbsp;&nbsp;Обновление ...<br><br>",nodataHTML: "&nbsp;&nbsp;&nbsp;Нет данных<br><br>" });
+    metaobj_vsv_model_states.renderMakeParams = vsv_model_states_makeMetaParams;
+
+    metaobj_vsv_model_states.get(); //!!!!!!!
     
     reload_vsv_model_parameters();
 }
@@ -63,6 +67,17 @@ function vsv_model_makeMetaParams(opts)
 	}
 
 	if(opts.DATA.start) { params.dt = opts.DATA.start; }
+	
+	return params;
+    
+}
+
+function vsv_model_states_makeMetaParams(opts)
+{  
+	var params={};
+	
+	if(opts.DATA.dt) { params.dt = opts.DATA.dt; }
+	if(opts.DATA.state_id) { params.state_id = opts.DATA.state_id; }
 	
 	return params;
     
