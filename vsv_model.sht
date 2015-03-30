@@ -69,7 +69,7 @@
 <fieldset>
 <legend>
      &nbsp;
-     <span id="tab_surveys_list_label"><big>Список наблюдений</big></span>
+     <span id="tab_surveys_list_label"><big>Список состояний</big></span>
      &nbsp;
 </legend>
 
@@ -85,7 +85,7 @@
 		    <td>
 		    </td>
 		    <td>
-				<input type=button value="Снять выделение" style="width: 90px; font-size:10px;background: #D4D0C8;" onclick="clearVSVModelSurveysSelection();">
+				<input type=button value="Снять выделение" style="width: 90px; font-size:10px;background: #D4D0C8;" onclick="clearVSVModelStatesSelection();">
 		    </td>
 
 		    

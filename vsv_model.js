@@ -8,19 +8,27 @@ function INIT_VSV_MODEL_TAB()
 
     metaobj_vsv_model_states = new smisMeta({  "NoFlash":1, "debug": 1, "debug_func" : function(msg){	tlog(msg); }, conf: MetaDATA_conf.vsv_model_states, loadingHTML: "&nbsp;&nbsp;&nbsp;Обновление ...<br><br>",nodataHTML: "&nbsp;&nbsp;&nbsp;Нет данных<br><br>" });
     metaobj_vsv_model_states.renderMakeParams = vsv_model_states_makeMetaParams;
-
+    metaobj_vsv_model_states.OnMetaUpdate = vsv_model_states_OnMetaUpdate;
+    metaobj_vsv_model_states.OnMetaClick = vsv_model_states_OnMetaClick;
+    
     reload_vsv_model_parameters();
 }
 
 function reload_vsv_model_parameters()
 {
-
 	if(active_tab=="tab_vsv_model")
 	{
-		metaobj_vsv_model.get();
+		if(typeof metaobj_vsv_model != "undefined")
+		{
+		    metaobj_vsv_model.get();
+		}
 	}	  
-    
 }
+
+function tab_vsv_model_onactive()
+{
+	reload_vsv_model_parameters();
+}	
 
 function vsv_model_OnMetaUpdate(opts)
 { 
@@ -43,7 +51,8 @@ function vsv_model_OnMetaUpdate(opts)
 		{
 			obj.innerHTML = "&nbsp;";
 		}
-	}
+	} 
+
 }
 
 function vsv_model_makeMetaParams(opts)
@@ -86,11 +95,12 @@ function vsv_model_states_makeMetaParams(opts)
 function vsv_model_OnMetaClick()
 { 
 		reload_vsv_states_parameters();
+		setVModelLayers();
 }
 
 function reload_vsv_states_parameters()
 {
-    var UID = 0;
+    var UID = -1;
     
 	var selected = metaobj_vsv_model.GetSelectedMetaInfo();
     
@@ -107,4 +117,85 @@ function reload_vsv_states_parameters()
     
     document.getElementById("_metadata_eruptions_states_info").innerHTML = "&nbsp;";
 }
+
+function vsv_model_states_OnMetaUpdate(opts)
+{ 
+	if(opts && opts.metadataid)
+	{
+		var obj = document.getElementById("_metadata_eruptions_states_info");
+
+		if(defined(opts.INFO.common.count) && opts.INFO.common.count!==null)
+		{       
+				if(project_language == 'rus')
+				{
+					obj.innerHTML = "Состояний: "+opts.INFO.common.count;
+				}	
+				if(project_language == 'eng')
+				{
+					obj.innerHTML = "STATES: "+opts.INFO.common.count;
+				}	
+		}
+		else
+		{
+			obj.innerHTML = "&nbsp;";
+		}
+	} 
+	
+	var selected = metaobj_vsv_model.GetSelectedMetaInfo();
+    
+    if(!selected[0])
+    {
+       obj.innerHTML = "&nbsp;";
+    }
+	
+}
+
+function vsv_model_states_OnMetaClick()
+{ 
+    setVModelLayers();		
+}
+
+function clearVSVModelSelection()
+{
+    metaobj_vsv_model.ClearSelection();
+    
+    reload_vsv_states_parameters(); // Очищает нижний список, так как задает UID = -1
+}
+
+function clearVSVModelStatesSelection()
+{
+    metaobj_vsv_model_states.ClearSelection();
+}
+
+function setVModelLayers()
+{ 
+    var selected = metaobj_vsv_model_states.GetSelectedMetaInfo();
+    if(selected[0])
+    {
+    	var STATE_UID = selected[0]['uid'];
+    	
+    	if(layers["vsv_model"].params)
+    	{
+    	    layers["vsv_model"].params["vsv_signal_tasks_state_id"] = STATE_UID;
+    	}
+    	
+        var selected_t = metaobj_vsv_model.GetSelectedMetaInfo();
+        if(selected_t[0])
+        {
+    	    var TASK_UID = selected_t[0]['uid'];
+    	    layers["vsv_model"].params["vsv_signal_tasks_task_id"] = TASK_UID;
+        }
+        else
+        {
+            alert("Error in layers params (E5)");
+        }
+    	
+    	
+    	mapobj.LayerShow('vsv_model');
+    }
+    else
+    {
+    	mapobj.LayerHide('vsv_model');
+    }		
+}	
 
