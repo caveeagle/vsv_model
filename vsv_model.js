@@ -4,12 +4,11 @@ function INIT_VSV_MODEL_TAB()
     metaobj_vsv_model = new smisMeta({  "NoFlash":1, "debug": 1, "debug_func" : function(msg){	tlog(msg); }, conf: MetaDATA_conf.vsv_models, loadingHTML: "&nbsp;&nbsp;&nbsp;Обновление ...<br><br>",nodataHTML: "&nbsp;&nbsp;&nbsp;Нет данных<br><br>" });
     metaobj_vsv_model.OnMetaUpdate = vsv_model_OnMetaUpdate;
     metaobj_vsv_model.renderMakeParams = vsv_model_makeMetaParams;
+    metaobj_vsv_model.OnMetaClick = vsv_model_OnMetaClick;
 
     metaobj_vsv_model_states = new smisMeta({  "NoFlash":1, "debug": 1, "debug_func" : function(msg){	tlog(msg); }, conf: MetaDATA_conf.vsv_model_states, loadingHTML: "&nbsp;&nbsp;&nbsp;Обновление ...<br><br>",nodataHTML: "&nbsp;&nbsp;&nbsp;Нет данных<br><br>" });
     metaobj_vsv_model_states.renderMakeParams = vsv_model_states_makeMetaParams;
 
-    metaobj_vsv_model_states.get(); //!!!!!!!
-    
     reload_vsv_model_parameters();
 }
 
@@ -82,3 +81,30 @@ function vsv_model_states_makeMetaParams(opts)
 	return params;
     
 }
+
+
+function vsv_model_OnMetaClick()
+{ 
+		reload_vsv_states_parameters();
+}
+
+function reload_vsv_states_parameters()
+{
+    var UID = 0;
+    
+	var selected = metaobj_vsv_model.GetSelectedMetaInfo();
+    
+    if(selected[0])
+    {
+        UID = selected[0]['uid'];
+    }
+    
+	var params = { data_params:  {	task_id: UID	} };
+
+	metaobj_vsv_model_states.SetDataParams(params);
+	
+	metaobj_vsv_model_states.get();
+    
+    document.getElementById("_metadata_eruptions_states_info").innerHTML = "&nbsp;";
+}
+
