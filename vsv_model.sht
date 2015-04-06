@@ -27,14 +27,23 @@
 	<div style="padding:5px;">
 
 	<div align=left><input type="checkbox" title="Скрыть/показать данные" 
-	    id="vsv_model_visible_control" onclick="" 
+	    id="vsv_model_visible_control" onclick="setVSVModelsVisible(this.checked);" 
 	    value="" checked/>&nbsp;<b>
 	        <span id='tab_vsv_model_tabname'>Моделирование пепловых шлейфов</span></b>
 	</div>
 	<hr>
 <!--  #####################################################################  -->
 
-<br>
+<div style="padding: 10px">
+
+	        <span>Выбор вулкана: &nbsp;</span>
+		        <select style="font-size:80%;" id="vol_id_for_vsv_model" onChange="reload_vsv_model_parameters();">
+		               <option selected value="ALL">Все вулканы</option>
+		               <!--#config errmsg="" -->
+		               <!--#include virtual="/geocover_v4/cgi/make_select_list.pl?proj=volcanoes" -->
+		        </select>
+
+</div>
 
 <fieldset>
 <legend>
@@ -53,11 +62,20 @@
 		<table border="0" cellspacing=0 cellpadding=0 width="100%">
 		  <tr>
 		    <td>
-		    </td>
-		    <td>
 				<input type=button value="Снять выделение" style="width: 90px; font-size:10px;background: #D4D0C8;" onclick="clearVSVModelSelection();">
 		    </td>
 
+		    <td>
+		    </td>
+
+		    <td align=right>
+				<input type=button value="Обновить список" 
+				       style="width: 90px; font-size:10px;background: #D4D0C8;" 
+				       onclick="make_vsv_models_params();">
+		    </td>
+
+		    <td>
+		    </td>
 		    
 		  </tr>
 		</table>

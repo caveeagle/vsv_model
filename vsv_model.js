@@ -1,3 +1,5 @@
+
+var vsv_model_params = {};
  
 function INIT_VSV_MODEL_TAB()
 {
@@ -18,16 +20,16 @@ function reload_vsv_model_parameters()
 {
 	if(active_tab=="tab_vsv_model")
 	{
-		if(typeof metaobj_vsv_model != "undefined")
-		{
-		    metaobj_vsv_model.get();
-		}
+            make_vsv_models_params();
 	}	  
 }
 
 function tab_vsv_model_onactive()
 {
-	reload_vsv_model_parameters();
+    if(typeof metaobj_vsv_model != "undefined")
+    {
+        reload_vsv_model_parameters();
+    }
 }	
 
 function vsv_model_OnMetaUpdate(opts)
@@ -158,44 +160,89 @@ function vsv_model_states_OnMetaClick()
 function clearVSVModelSelection()
 {
     metaobj_vsv_model.ClearSelection();
-    
-    reload_vsv_states_parameters(); // Очищает нижний список, так как задает UID = -1
+    metaobj_vsv_model_states.ClearSelection();
+    reload_vsv_states_parameters(); // Очищает нижний список, так как задает UID = -1 
+    setVModelLayers();
 }
 
 function clearVSVModelStatesSelection()
 {
     metaobj_vsv_model_states.ClearSelection();
+    setVModelLayers();
 }
 
 function setVModelLayers()
 { 
-    var selected = metaobj_vsv_model_states.GetSelectedMetaInfo();
-    if(selected[0])
+    if(vsv_model_visible)
     {
-    	var STATE_UID = selected[0]['uid'];
-    	
-    	if(layers["vsv_model"].params)
-    	{
-    	    layers["vsv_model"].params["vsv_signal_tasks_state_id"] = STATE_UID;
-    	}
-    	
-        var selected_t = metaobj_vsv_model.GetSelectedMetaInfo();
-        if(selected_t[0])
+        var selected = metaobj_vsv_model_states.GetSelectedMetaInfo();
+        if(selected[0])
         {
-    	    var TASK_UID = selected_t[0]['uid'];
-    	    layers["vsv_model"].params["vsv_signal_tasks_task_id"] = TASK_UID;
+        	var STATE_UID = selected[0]['uid'];
+        	
+        	if(layers["vsv_model"].params)
+        	{
+        	    layers["vsv_model"].params["vsv_signal_tasks_state_id"] = STATE_UID;
+        	}
+        	
+            var selected_t = metaobj_vsv_model.GetSelectedMetaInfo();
+            if(selected_t[0])
+            {
+        	    var TASK_UID = selected_t[0]['uid'];
+        	    layers["vsv_model"].params["vsv_signal_tasks_task_id"] = TASK_UID;
+            }
+            else
+            {
+                alert("Error in layers params (E5)");
+            }
+        	
+        	
+        	mapobj.LayerShow('vsv_model');
         }
         else
         {
-            alert("Error in layers params (E5)");
+        	mapobj.LayerHide('vsv_model');
         }
-    	
-    	
-    	mapobj.LayerShow('vsv_model');
     }
     else
     {
     	mapobj.LayerHide('vsv_model');
-    }		
+    }
+        
 }	
+
+function make_vsv_models_params()
+{
+    var el1 = document.getElementById("vol_id_for_vsv_model");
+    var t1  = el1.options[el1.selectedIndex];
+    var v1 = t1.value;
+    
+    if(v1 == 'ALL') {v1 = ""};
+    
+    vsv_model_params = { data_params:
+        {
+            nocache: randomString(5),
+            volcanoe_smis_name: v1
+        }};
+    
+    metaobj_vsv_model.SetDataParams(vsv_model_params);
+    metaobj_vsv_model.get();  
+}
+
+var vsv_model_visible=1;
+function setVSVModelsVisible(i)
+{
+	if(i)
+	{
+		vsv_model_visible = 1;
+		tabVeil("tab_vsv_model",0);
+	}
+	else	
+	{
+		vsv_model_visible = 0;
+		tabVeil("tab_vsv_model",1);
+	}
+	
+	setVModelLayers();
+}
 
